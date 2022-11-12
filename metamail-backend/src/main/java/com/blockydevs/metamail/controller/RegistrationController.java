@@ -3,6 +3,7 @@ package com.blockydevs.metamail.controller;
 import com.blockydevs.metamail.business.IRegisterService;
 import com.blockydevs.metamail.business.command.RegisterEmailCommand;
 import com.blockydevs.metamail.configuration.AppProp;
+import com.blockydevs.metamail.domain.RegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -24,14 +25,16 @@ public class RegistrationController {
 
     @GetMapping("/{sig}")
     public void register(@NotNull @PathVariable("sig")final String sig,
-                         final Principal principal,
-                         HttpServletResponse response) throws IOException {
-        registerService.register(RegisterEmailCommand.builder()
+                                     final Principal principal,
+                                     HttpServletResponse httpServletResponse) throws IOException {
+        final var response = registerService.register(RegisterEmailCommand.builder()
                 .email(((OAuth2AuthenticationToken) principal).getPrincipal().getAttribute("email"))
                 .sig(sig)
                 .build());
 
-        response.sendRedirect(appProp.registrationRedirectUri());
+        httpServletResponse.sendRedirect(String.format("%s/tx=%s",appProp.registrationRedirectUri(),
+                response.transactionHash()));
+
     }
 
 }
