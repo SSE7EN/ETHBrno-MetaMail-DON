@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import Web3 from "web3";
+import {WalletActionType} from "./wallet-action-type";
 
 @Injectable({
     providedIn: 'root'
@@ -9,14 +10,13 @@ export class WalletSignService {
     constructor() {
     }
 
-    async signMessage(message: string) {
-        if (!window.ethereum) return alert("Please Install Metamask");
+    async signMessage(message: string): Promise<string> {
+        if (!window.ethereum) throw new Error("Metamask wallet not connected :/");
 
         // connect and get metamask account
-        const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
+        const accounts = await window.ethereum.request({method: WalletActionType.REQUEST_ACCOUNT});
 
         // message to sign
-        // const message = "hello";
         console.log({message});
 
         // hash message
@@ -25,20 +25,15 @@ export class WalletSignService {
 
 
         // sign hashed message
-        const [first] = accounts;
-
-
-        const signature = await window.ethereum.request({
-            method: "personal_sign",
-            params: [hashedMessage, first],
+        const [signerAccount] = accounts;
+        const signature: Promise<string> = window.ethereum.request({
+            method: WalletActionType.SIGN_DATA,
+            params: [hashedMessage, signerAccount],
         });
         console.log({signature});
 
-        // split signature
-        const r = signature.slice(0, 66);
-        const s = "0x" + signature.slice(66, 130);
-        const v = parseInt(signature.slice(130, 132), 16);
-        console.log({r, s, v});
+        return signature;
+
     }
 
 

@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {WalletService} from "./wallet/wallet.service";
 import {WalletSignService} from "./wallet/wallet-sign.service";
 import {NGXLogger} from "ngx-logger";
-import {FormControl} from "@angular/forms";
+import {EmailAuthenticatorService} from "./auth/email-authenticator.service";
+import {DataSignature} from "./DataSignature";
 
 @Component({
     selector: 'app-root',
@@ -13,8 +14,6 @@ export class AppComponent {
     title = 'MetaMail-frontend';
     public inputEmail: string = "";
 
-    myControl = new FormControl('');
-
     ngOnInit() {
         this.logger.debug("App initialized (｡◕‿◕｡)");
     }
@@ -22,16 +21,29 @@ export class AppComponent {
     constructor(
         private logger: NGXLogger,
         private walletService: WalletService,
-        private walletSignService: WalletSignService
+        private walletSignService: WalletSignService,
+        private emailAuth: EmailAuthenticatorService
     ) {
     }
 
 
     public handleBtnClick(): void {
-        this.logger.log(this.inputEmail);
-        this.walletSignService.signMessage(this.inputEmail)
-            .catch(reason => this.logger.error(reason));
+        this.logger.log("Data entered: " + this.inputEmail);
+        this.walletSignService.signMessage(this.inputEmail).then(value => {
+            this.logger.info("Message signed")
+            this.logger.log(value);
+            return value;
+        }).then(value => {
+            //Send http request
+            this.logger.log("Sending request to auth");
+            this.emailAuth.requestAccessToken({data: value} as DataSignature)
+        }).catch(reason => {
+            this.logger.info("Tx error or rejected");
+            this.logger.error(reason);
+        })
     }
 
+
+    //wyslac na back podpis 0x + base 64 plus acces token w auth header
 
 }
