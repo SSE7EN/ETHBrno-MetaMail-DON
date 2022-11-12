@@ -11,18 +11,19 @@ export class InputErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-    selector: 'app-email-input',
-    templateUrl: './email-input.component.html'
+    selector: 'app-transaction-input',
+    templateUrl: './transaction-input.component.html'
 })
-export class EmailInputComponent implements OnInit {
+export class TransactionInputComponent implements OnInit {
 
-    emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+    transactionFormControl = new FormControl('', [Validators.required]);
     matcher = new InputErrorStateMatcher();
 
     @Input() value: string = '';
     @Output() valueChange = new EventEmitter<string>();
 
     public inputValue: string = '';
+    public inputAmount: string = '';
 
     constructor() {
     }

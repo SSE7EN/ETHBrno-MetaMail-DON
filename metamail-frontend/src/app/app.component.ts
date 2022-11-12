@@ -13,6 +13,7 @@ import {DataSignature} from "./DataSignature";
 export class AppComponent {
     title = 'MetaMail-frontend';
     public inputEmail: string = "";
+    public inputAddress: string = "";
 
     ngOnInit() {
         this.logger.debug("App initialized (｡◕‿◕｡)");

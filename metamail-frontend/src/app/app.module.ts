@@ -10,11 +10,13 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {EmailInputComponent} from './ui/email-input/email-input.component';
 import {HttpClientModule} from "@angular/common/http";
+import {TransactionInputComponent} from "./ui/transaction-input/transaction-input.component";
 
 @NgModule({
     declarations: [
         AppComponent,
-        EmailInputComponent
+        EmailInputComponent,
+        TransactionInputComponent
     ],
     imports: [
         BrowserModule,

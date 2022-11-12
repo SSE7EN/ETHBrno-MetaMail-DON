@@ -1,0 +1,17 @@
+<div>
+    <div class="field">
+        <label class="label">Send transaction to email</label>
+        <div class="control">
+            <input class="input" type="email" [formControl]="transactionFormControl" name="transaction"
+                   [(ngModel)]="inputValue"
+                   placeholder="transaction@example.com">
+            <input class="input" type="number" [formControl]="transactionFormControl" name="transaction"
+                   [(ngModel)]="inputAmount" placeholder="Enter amount">
+        </div>
+    </div>
+</div>
+
+<!--    <mat-hint>Errors appear instantly!</mat-hint>-->
+
+<button mat-raised-button type="submit" (click)="_formSubmit()" color="primary">Send transaction</button>
+
