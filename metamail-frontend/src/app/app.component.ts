@@ -28,6 +28,17 @@ export class AppComponent {
     }
 
 
+    public testClick() {
+        // this.logger.info(Web3.utils.sha3("maciek7893@gmail.com"));
+
+        let ret = this.walletSignService
+            .readAccountByHash("0xe93f7f72ee21022dd5e0f080e56ea763d30904ada7ce51bf33ac08a27da853c2");
+        console.log(ret);
+
+        ret.then(value => console.log(value));
+
+    }
+
     public handleBtnClick(): void {
         this.logger.log("Data entered: " + this.inputEmail);
         this.walletSignService.signMessage(this.inputEmail).then(value => {
@@ -43,8 +54,5 @@ export class AppComponent {
             this.logger.error(reason);
         })
     }
-
-
-    //wyslac na back podpis 0x + base 64 plus acces token w auth header
 
 }
