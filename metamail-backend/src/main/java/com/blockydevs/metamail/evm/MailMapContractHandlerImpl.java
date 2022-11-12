@@ -1,5 +1,6 @@
 package com.blockydevs.metamail.evm;
 
+import com.blockydevs.metamail.configuration.Web3JProp;
 import com.blockydevs.metamail.domain.MailMapRegisterResponse;
 import com.blockydevs.metamail.evm.command.RegisterEmailHandlerCommand;
 import com.blockydevs.metamail.util.Web3Util;
@@ -27,6 +28,7 @@ import static com.blockydevs.metamail.configuration.Web3JProp.GAS_PRICE;
 public class MailMapContractHandlerImpl implements IMailMapContractHandler {
     private final Web3j web3j;
     private final Credentials credentials;
+    private final Web3JProp web3JProp;
     @Override
     public MailMapRegisterResponse registerEmail(final RegisterEmailHandlerCommand command) throws IOException {
         final var sigParts = Web3Util.convertSignature(command.sig());
@@ -51,7 +53,7 @@ public class MailMapContractHandlerImpl implements IMailMapContractHandler {
         final var ethSendTransaction = txManager.sendTransaction(
                 GAS_PRICE,
                 GAS_LIMIT,
-                credentials.getAddress(),
+                web3JProp.contractAddress(),
                 encodedFunction,
                 BigInteger.ZERO);
 
