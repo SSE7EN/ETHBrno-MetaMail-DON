@@ -24,7 +24,6 @@ public class RegistrationController {
     private final AppProp appProp;
 
     @GetMapping("/{sig}")
-    @CrossOrigin
     public void register(@NotNull @PathVariable("sig") final String sig,
                          final Principal principal,
                          HttpServletResponse httpServletResponse) throws IOException {
