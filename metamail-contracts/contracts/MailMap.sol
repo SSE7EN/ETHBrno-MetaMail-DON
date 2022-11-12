@@ -4,6 +4,8 @@ pragma solidity 0.8.17;
 contract MailMap {
 
     mapping(bytes32 => address) registeredAddresses;
+    mapping(address => bytes32) registeredEmails;
+
     address oracleAddress;
 
     constructor(
@@ -22,11 +24,18 @@ contract MailMap {
         bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _emailHash));
         address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
         registeredAddresses[_emailHash] = signer;
+        registeredEmails[signer] = _emailHash;
     }
 
     function getWalletAddress(bytes32 emailHash) external view returns(address) {
         require(registeredAddresses[emailHash] != address(0), "Email is not registered");
         return registeredAddresses[emailHash];
+    }
+
+    function removeUser() external {
+        bytes32 email = registeredEmails[msg.sender];
+        delete registeredAddresses[email];
+        delete registeredEmails[msg.sender];
     }
 
 }
