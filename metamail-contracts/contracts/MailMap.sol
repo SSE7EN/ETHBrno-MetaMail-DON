@@ -25,6 +25,7 @@ contract MailMap {
     }
 
     function getWalletAddress(bytes32 emailHash) external view returns(address) {
+        require(registeredAddresses[emailHash] != address(0), "Email is not registered");
         return registeredAddresses[emailHash];
     }
 
