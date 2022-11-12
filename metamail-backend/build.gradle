@@ -23,6 +23,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.5'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+	implementation 'org.web3j:core:5.0.0'
 }
 
 tasks.named('test') {
