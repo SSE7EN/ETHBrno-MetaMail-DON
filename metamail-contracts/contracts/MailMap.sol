@@ -6,6 +6,8 @@ contract MailMap {
     mapping(bytes32 => address) registeredAddresses;
     mapping(address => bytes32) registeredEmails;
 
+    bytes constant HASH_PREFIX = "\x19Ethereum Signed Message:\n32";
+
     address oracleAddress;
 
     constructor(
@@ -20,8 +22,7 @@ contract MailMap {
     }
 
     function registerEmail(bytes32 _emailHash, uint8 _v, bytes32 _r, bytes32 _s) onlyOracle external {
-        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
-        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _emailHash));
+        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(HASH_PREFIX, _emailHash));
         address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
         registeredAddresses[_emailHash] = signer;
         registeredEmails[signer] = _emailHash;
