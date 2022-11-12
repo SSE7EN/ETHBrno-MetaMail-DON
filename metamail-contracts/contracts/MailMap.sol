@@ -12,19 +12,16 @@ contract MailMap {
         oracleAddress = _oracleAddress;
     }
 
-    event AuthorizeEmailRegistrationRequest(address sender);
-
     modifier onlyOracle() {
         require(msg.sender == oracleAddress);
         _;
     }
 
-    function requestEmailRegistration() external {
-        emit AuthorizeEmailRegistrationRequest(msg.sender);
-    }
-
-    function registerEmail(bytes32 emailHash, address walletAddress) onlyOracle external {
-        registeredAddresses[emailHash] = walletAddress;
+    function registerEmail(bytes32 _emailHash, uint8 _v, bytes32 _r, bytes32 _s) onlyOracle external {
+        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _emailHash));
+        address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
+        registeredAddresses[_emailHash] = signer;
     }
 
     function getWalletAddress(bytes32 emailHash) external view returns(address) {
