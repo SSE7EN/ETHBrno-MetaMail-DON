@@ -1,25 +1,87 @@
-<div class="content" role="main">
-    <figure class="image logo">
-        <img src="assets/logo1.png">
-    </figure>
-    <section class="section">
-        <div class="container">
-            <form class="example-form">
-                <app-email-input [(value)]="inputEmail" (valueChange)="handleBtnClick()"></app-email-input>
-            </form>
-        </div>
-        <br/>
-        <div class="container">
-            <form class="example-form">
-                <app-transaction-input [(value)]="inputTransfer"  (valueChange)="handleTokenTransfer()"></app-transaction-input>
-            </form>
-        </div>
+<!--<div class="content" role="main">-->
+<!--    <figure class="image logo">-->
+<!--        <img src="assets/logo1.png">-->
+<!--    </figure>-->
+<!--    <section class="section">-->
+<!--        <div class="container">-->
+<!--            <form class="example-form">-->
+<!--                <app-email-input [(value)]="inputEmail" (valueChange)="handleBtnClick()"></app-email-input>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <br/>-->
+<!--        <div class="container">-->
+<!--            <form class="example-form">-->
+<!--                <app-transaction-input [(value)]="inputTransfer"  (valueChange)="handleTokenTransfer()"></app-transaction-input>-->
+<!--            </form>-->
+<!--        </div>-->
 
-        <!-- 0x77f830116cc22d213004b3f5027c5d249685767a651fee6e1050d634103a39bb    -->
-<!--        <button (click)="testClick()" >TEST</button>-->
+<!--        &lt;!&ndash; 0x77f830116cc22d213004b3f5027c5d249685767a651fee6e1050d634103a39bb    &ndash;&gt;-->
+<!--&lt;!&ndash;        <button (click)="testClick()" >TEST</button>&ndash;&gt;-->
 
 
-    </section>
-</div>
+<!--    </section>-->
+<!--</div>-->
 
 <!--<router-outlet></router-outlet>-->
+
+
+<section class="container">
+    <div class="columns is-multiline">
+
+
+        <div class="column is-8 is-offset-2 register">
+            <div class="columns">
+                <div class="column left">
+                    <img src="assets/logo1.png"/>
+                    <!--            <h1 class="title is-1">Super Cool Website</h1>-->
+                    <h1 class="subtitle colored is-4" style="font-size: 40px;">MetaMail</h1>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis ex deleniti aliquam tempora
+                        libero excepturi vero soluta odio optio sed.</p>
+                </div>
+                <div class="column right has-text-centered">
+
+                    <app-transaction-input [(value)]="inputTransfer"  (valueChange)="handleTokenTransfer()" ></app-transaction-input>
+
+                    <br><br>
+
+                    <app-email-input [(value)]="inputEmail" (valueChange)="handleBtnClick()" ></app-email-input>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="column is-8 is-offset-2">
+            <br>
+            <nav class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <!--                <span class="icon">-->
+                        <!--                  <i class="fab fa-twitter"></i>-->
+                        <!--                </span> &emsp;-->
+                        <!--                        <span class="icon">-->
+                        <!--                  <i class="fab fa-facebook"></i>-->
+                        <!--                </span> &emsp;-->
+                        <!--                        <span class="icon">-->
+                        <!--                  <i class="fab fa-instagram"></i>-->
+                        <!--                </span> &emsp;-->
+                        <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span> &emsp;
+                        <!--                        <span class="icon">-->
+                        <!--                  <i class="fas fa-envelope"></i>-->
+                        <!--                </span>-->
+                    </div>
+                </div>
+                <div class="level-right">
+                    <small class="level-item" style="color: var(--textLight)">
+                        ETHBrno 2022
+                    </small>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>

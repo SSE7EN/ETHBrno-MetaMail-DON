@@ -4,6 +4,7 @@ import {WalletActionType} from "./wallet-action-type";
 import {Address} from "abitype";
 import '@metamask/legacy-web3'
 import {Contract} from "web3-eth-contract";
+import {ContractProperties} from "./ContractProperties";
 
 @Injectable({
     providedIn: 'root'
@@ -47,32 +48,10 @@ export class WalletSignService {
     }
 
     async loadContract(): Promise<Contract> {
-        let abi = [{
-            "inputs": [{"internalType": "address", "name": "_oracleAddress", "type": "address"}],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        }, {
-            "inputs": [{"internalType": "bytes32", "name": "emailHash", "type": "bytes32"}],
-            "name": "getWalletAddress",
-            "outputs": [{"internalType": "address", "name": "", "type": "address"}],
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "inputs": [{"internalType": "bytes32", "name": "_emailHash", "type": "bytes32"}, {
-                "internalType": "uint8",
-                "name": "_v",
-                "type": "uint8"
-            }, {"internalType": "bytes32", "name": "_r", "type": "bytes32"}, {
-                "internalType": "bytes32",
-                "name": "_s",
-                "type": "bytes32"
-            }], "name": "registerEmail", "outputs": [], "stateMutability": "nonpayable", "type": "function"
-        }, {"inputs": [], "name": "removeUser", "outputs": [], "stateMutability": "nonpayable", "type": "function"}];
-        let address = "0x3335609C31e21317f98b4Fa0EB3cA71C8A8AaF3E";
         var web3 = new Web3(window.ethereum);
 
         // @ts-ignore
-        return new web3.eth.Contract(abi, address);
+        return new web3.eth.Contract(ContractProperties.ABI, ContractProperties.CONTRACT_ADDRESS);
     }
 
     async readAccountByHash(hashData: string): Promise<string> {
@@ -84,7 +63,7 @@ export class WalletSignService {
         return await contract.methods.getWalletAddress(hashData).call();
     }
 
-    public async initFundsTransfer(from_wallet: string, target_wallet: string, value: number): Promise<string>{
+    public async initFundsTransfer(from_wallet: string, target_wallet: string, value: number): Promise<string> {
         const tr: Promise<string> = window.ethereum.request({
             method: WalletActionType.SEND_TX,
             params: [

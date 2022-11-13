@@ -53,9 +53,9 @@ export class AppComponent {
                     this.logger.info("Found wallet address: " + target_acc);
                     this.walletSignService.initFundsTransfer(eth_accounts, target_acc, this.inputTransfer.amount)
                         .then(value => {
-                        this.logger.info("TX: " + value);
-                        return value;
-                    }).catch(reason => {
+                            this.logger.info("TX: " + value);
+                            return value;
+                        }).catch(reason => {
                         this.logger.error(reason)
                     })
 

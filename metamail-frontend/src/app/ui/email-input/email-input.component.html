@@ -1,14 +1,26 @@
-<div>
+<!--<div>-->
+<!--    <div class="field">-->
+<!--        <label class="label">Email to register</label>-->
+<!--        <div class="control">-->
+<!--            <input class="input" type="email" [formControl]="emailFormControl" name="email" [(ngModel)]="inputValue"-->
+<!--                   placeholder="email@example.com">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;    <mat-hint>Errors appear instantly!</mat-hint>&ndash;&gt;-->
+
+<!--<button mat-raised-button type="submit" (click)="_formSubmit()" color="primary">Add email</button>-->
+
+<h1 class="title is-4">Register you email now</h1>
+<p class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit</p>
+<form>
     <div class="field">
-        <label class="label">Email to register</label>
         <div class="control">
-            <input class="input" type="email" [formControl]="emailFormControl" name="email" [(ngModel)]="inputValue"
-                   placeholder="email@example.com">
+            <input class="input is-medium" [formControl]="emailFormControl" [(ngModel)]="inputValue" name="email" type="email" placeholder="Email">
         </div>
     </div>
-</div>
-
-<!--    <mat-hint>Errors appear instantly!</mat-hint>-->
-
-<button mat-raised-button type="submit" (click)="_formSubmit()" color="primary">Add email</button>
-
+    <button (click)="_formSubmit()"  class="button is-block is-primary is-fullwidth is-medium">Register</button>
+    <br />
+    <!--                <small><em>Lorem ipsum dolor sit amet consectetur.</em></small>-->
+</form>
