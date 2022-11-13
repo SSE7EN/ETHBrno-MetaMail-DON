@@ -28,20 +28,11 @@ export class AppComponent {
     public bannerState: boolean = false;
     public bannerMessage: string = "";
 
+    public errorBannerMessage: string = "";
+    public errorBannerState: boolean = false;
+
     ngOnInit() {
-
-        console.log(location.href);
-
-        //Handle redirect back from oauth flow
-        let urlPath = location.href;
-        let searchPattern = "?tx=";
-        if (urlPath.includes(searchPattern, 0)) {
-            let values = urlPath?.split('=');
-            console.warn(values)
-            this.bannerMessage = this.bannerContent.getEmailRegisteredValue(values[1])
-            this.bannerState = true;
-        }
-
+        this.handleAuthRedirectQueryParams();
     }
 
     constructor(
@@ -53,36 +44,45 @@ export class AppComponent {
     ) {
     }
 
-    public handleTokenTransfer(): void {
-        // let ret = this.walletSignService
-        //     .readAccountByHash("0xe93f7f72ee21022dd5e0f080e56ea763d30904ada7ce51bf33ac08a27da853c2");
-        // console.log(ret);
-        // ret.then(value => console.log(value));
+    private handleAuthRedirectQueryParams(): void {
+        //Handle redirect back from oauth flow
+        let urlPath = location.href;
+        let searchPattern = "?tx=";
+        if (urlPath.includes(searchPattern, 0)) {
+            let values = urlPath?.split('=');
+            console.warn(values)
+            this.bannerMessage = this.bannerContent.getEmailRegisteredValue(values[1])
+            this.bannerState = true;
+        }
+    }
 
-        this.logger.warn(this.inputTransfer);
+    public handleTokenTransfer(): void {
+        this.logger.info(this.inputTransfer);
 
         this.walletSignService.getCurrentAccount().then((eth_accounts: any) => {
 
             this.logger.info(eth_accounts);
-            let target = "0x1E1AA5055abacFEC06CbfF16aa9540927782fC34";
-            this.logger.info(target);
 
+                this.walletSignService.readAccountByHash(Web3.utils.keccak256(this.inputTransfer.target))
+                    .then(target_acc => {
+                        //Send tx
+                        this.logger.info("Found wallet address: " + target_acc);
+                        this.walletSignService.initFundsTransfer(eth_accounts, target_acc, this.inputTransfer.amount)
+                            .then(value => {
+                                this.logger.info("TX: " + value);
+                                this.bannerState = true;
+                                this.bannerMessage = this.bannerContent.getEmailTransfer(target_acc);
+                                return value;
+                            }).catch(reason => {
+                            this.logger.warn(reason)
+                        })
 
-            this.walletSignService.readAccountByHash(Web3.utils.keccak256(this.inputTransfer.target))
-                .then(target_acc => {
-                    //Send tx
-                    this.logger.info("Found wallet address: " + target_acc);
-                    this.walletSignService.initFundsTransfer(eth_accounts, target_acc, this.inputTransfer.amount)
-                        .then(value => {
-                            this.logger.info("TX: " + value);
-                            this.bannerState = true;
-                            this.bannerMessage = this.bannerContent.getEmailTransfer(target_acc);
-                            return value;
-                        }).catch(reason => {
-                        this.logger.error(reason)
-                    })
-
-                });
+                    }).catch(reason => {
+                    this.logger.error("Email not found")
+                    this.errorBannerState = true;
+                    this.errorBannerMessage = BannerContent.EMAIL_NOT_FOUND;
+                    return;
+                })
 
         });
 
@@ -108,6 +108,7 @@ export class AppComponent {
 
     public handleBannerClose(): void {
         this.bannerState = false;
+        this.errorBannerState = false;
     }
 
 

@@ -19,9 +19,6 @@ export class EmailAuthenticatorService {
 
     public requestAccessToken(signature: DataSignature): void {
         window.location.href = this.prepareURL(signature.data as string);
-        // this.http.get(this.prepareURL(signature.data as string)).subscribe(value => {
-        //     this.logger.info("Trying to obtain auth token from google");
-        // })
     }
 
     private prepareURL(payloadData: string): string {
