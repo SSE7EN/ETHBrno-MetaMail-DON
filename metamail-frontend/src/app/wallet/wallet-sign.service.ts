@@ -20,10 +20,10 @@ export class WalletSignService {
         const account = await this.getCurrentAccount();
         console.log("ACCOUNT: " + account);
         // message to sign
-        console.log({message});
+        console.log(message);
 
         // hash message
-        const hashedMessage = Web3.utils.sha3(message);
+        const hashedMessage = Web3.utils.keccak256(message);
         console.log({hashedMessage});
 
 
