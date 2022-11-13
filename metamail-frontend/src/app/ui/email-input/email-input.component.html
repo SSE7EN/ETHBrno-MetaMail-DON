@@ -18,7 +18,9 @@
     <div class="field">
         <div class="control">
             <input class="input is-medium" [formControl]="emailFormControl" [(ngModel)]="inputValue" name="email" type="email" placeholder="Email">
+            <mat-error style="font-size: 10px" *ngIf="emailFormControl.invalid">{{getErrorMessage()}}</mat-error>
         </div>
+
     </div>
     <button (click)="_formSubmit()"  class="button is-block is-primary is-fullwidth is-medium">Register</button>
     <br />

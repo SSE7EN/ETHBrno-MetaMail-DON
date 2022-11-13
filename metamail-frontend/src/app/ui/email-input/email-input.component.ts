@@ -27,6 +27,14 @@ export class EmailInputComponent implements OnInit {
     constructor() {
     }
 
+    public getErrorMessage() {
+        if (this.emailFormControl.hasError('required')) {
+            return 'You must enter a value';
+        }
+
+        return this.emailFormControl.hasError('email') ? 'Not a valid email' : '';
+    }
+
     ngOnInit(): void {
     }
 
