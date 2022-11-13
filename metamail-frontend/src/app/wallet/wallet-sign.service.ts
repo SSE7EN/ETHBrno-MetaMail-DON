@@ -18,7 +18,7 @@ export class WalletSignService {
 
         // connect and get metamask account
         const account = await this.getCurrentAccount();
-
+        console.log("ACCOUNT: " + account);
         // message to sign
         console.log({message});
 
@@ -65,8 +65,8 @@ export class WalletSignService {
                 "name": "_s",
                 "type": "bytes32"
             }], "name": "registerEmail", "outputs": [], "stateMutability": "nonpayable", "type": "function"
-        }];
-        let address = "0x078aa0051964d9da034e323967386910d96a4a90"
+        }, {"inputs": [], "name": "removeUser", "outputs": [], "stateMutability": "nonpayable", "type": "function"}];
+        let address = "0x3335609C31e21317f98b4Fa0EB3cA71C8A8AaF3E";
         var web3 = new Web3(window.ethereum);
 
         // @ts-ignore
@@ -80,6 +80,20 @@ export class WalletSignService {
         let accountFrom = await this.getCurrentAccount();
 
         return await contract.methods.getWalletAddress(hashData).call();
+    }
+
+    public async initFundsTransfer(from_wallet: string, target_wallet: string, value: number): Promise<string>{
+        const tr: Promise<string> = window.ethereum.request({
+            method: WalletActionType.SEND_TX,
+            params: [
+                {
+                    from: from_wallet,
+                    to: target_wallet,
+                    value: Web3.utils.toHex(value),//1e-18 eth
+                },
+            ],
+        });
+        return tr;
     }
 
 }

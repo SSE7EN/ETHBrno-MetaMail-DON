@@ -11,19 +11,15 @@
         <br/>
         <div class="container">
             <form class="example-form">
-                <app-transaction-input [(value)]="inputAddress" (valueChange)="handleBtnClick()"></app-transaction-input>
+                <app-transaction-input [(value)]="inputTransfer"  (valueChange)="handleTokenTransfer()"></app-transaction-input>
             </form>
         </div>
 
-
-        <form class="example-form">
-            <app-email-input [(value)]="inputEmail" (valueChange)="handleBtnClick()"></app-email-input>
-        </form>
         <!-- 0x77f830116cc22d213004b3f5027c5d249685767a651fee6e1050d634103a39bb    -->
-        <button (click)="testClick()" >TEST</button>
+<!--        <button (click)="testClick()" >TEST</button>-->
 
 
     </section>
 </div>
 
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->

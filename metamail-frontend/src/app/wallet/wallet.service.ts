@@ -33,6 +33,8 @@ export class WalletService {
         });
     }
 
+
+
     async connectAccount() {
         this.web3Modal.clearCachedProvider();
 

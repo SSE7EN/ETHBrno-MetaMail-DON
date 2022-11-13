@@ -20,7 +20,6 @@ import {TransactionInputComponent} from "./ui/transaction-input/transaction-inpu
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         HttpClientModule,
         LoggerModule.forRoot({
             level: NgxLoggerLevel.DEBUG,
@@ -35,5 +34,4 @@ import {TransactionInputComponent} from "./ui/transaction-input/transaction-inpu
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
