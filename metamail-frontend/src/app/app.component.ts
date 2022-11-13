@@ -6,11 +6,17 @@ import {EmailAuthenticatorService} from "./auth/email-authenticator.service";
 import {DataSignature} from "./DataSignature";
 import Web3 from "web3";
 import {TransactionInputCommand} from "./ui/transaction-input/TransactionInputCommand";
+import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
+import {BannerContent} from "./ui/BannerContent";
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    animations: [
+        fadeInOnEnterAnimation({duration: 1200}),
+        fadeOutOnLeaveAnimation({duration: 2000})
+    ]
 })
 export class AppComponent {
     title = 'MetaMail-frontend';
@@ -19,16 +25,31 @@ export class AppComponent {
         target: '',
         amount: 0
     };
+    public bannerState: boolean = false;
+    public bannerMessage: string = "";
 
     ngOnInit() {
-        this.logger.debug("App initialized (｡◕‿◕｡)");
+
+        console.log(location.href);
+
+        //Handle redirect back from oauth flow
+        let urlPath = location.href;
+        let searchPattern = "?tx=";
+        if (urlPath.includes(searchPattern, 0)) {
+            let values = urlPath?.split('=');
+            console.warn(values)
+            this.bannerMessage = this.bannerContent.getEmailRegisteredValue(values[1])
+            this.bannerState = true;
+        }
+
     }
 
     constructor(
         private logger: NGXLogger,
         private walletService: WalletService,
         private walletSignService: WalletSignService,
-        private emailAuth: EmailAuthenticatorService
+        private emailAuth: EmailAuthenticatorService,
+        private bannerContent: BannerContent
     ) {
     }
 
@@ -54,6 +75,8 @@ export class AppComponent {
                     this.walletSignService.initFundsTransfer(eth_accounts, target_acc, this.inputTransfer.amount)
                         .then(value => {
                             this.logger.info("TX: " + value);
+                            this.bannerState = true;
+                            this.bannerMessage = this.bannerContent.getEmailTransfer(target_acc);
                             return value;
                         }).catch(reason => {
                         this.logger.error(reason)
@@ -82,5 +105,10 @@ export class AppComponent {
             this.logger.error(reason);
         })
     }
+
+    public handleBannerClose(): void {
+        this.bannerState = false;
+    }
+
 
 }

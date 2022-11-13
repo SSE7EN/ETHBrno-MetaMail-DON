@@ -25,6 +25,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "@web3modal/core": "^2.0.0-beta.3",
     "@web3modal/ethereum": "^2.0.0-beta.3",
+    "angular-animations": "^0.11.0",
     "bulma": "^0.9.4",
     "ngx-logger": "^5.0.11",
     "rxjs": "~7.5.0",
