@@ -10,6 +10,8 @@ import {Contract} from "web3-eth-contract";
 })
 export class WalletSignService {
 
+    private static WEI_TO_ETH = 1e18;
+
     constructor() {
     }
 
@@ -89,7 +91,7 @@ export class WalletSignService {
                 {
                     from: from_wallet,
                     to: target_wallet,
-                    value: Web3.utils.toHex(value),//1e-18 eth
+                    value: Web3.utils.toHex(value * WalletSignService.WEI_TO_ETH),//1e-18 eth
                 },
             ],
         });
