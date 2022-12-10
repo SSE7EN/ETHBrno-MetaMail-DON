@@ -1,0 +1,32 @@
+version: '2'
+services:
+  backend-oracle-1:
+    container_name: oracle-server-1
+    build:
+      context: docker-oracle-server-1
+      dockerfile: Dockerfile
+    image: oracle-server:latest
+    ports:
+      - 8080:8080
+    environment:
+    - spring_security_oauth2_client_registration_google_client_id=<client_id>
+    - spring_security_oauth2_client_registration_google_client_secret=<client_secret>
+    - web3j_private_key=<oracle_private_key>
+    - web3j_contract_address=<contract_address>
+    - app_registration_redirect_uri=<redirect_uri>
+  backend-oracle-2:
+    container_name: oracle-server-2
+    build:
+      context: docker-oracle-server-2
+      dockerfile: Dockerfile
+    image: oracle-server:latest
+    ports:
+      - 8081:8080
+    environment:
+    - spring_security_oauth2_client_registration_google_client_id=<client_id>
+    - spring_security_oauth2_client_registration_google_client_secret=<client_secret>
+    - web3j_private_key=<oracle_private_key>
+    - web3j_contract_address=<contract_address>
+    - app_registration_redirect_uri=<redirect_uri>
+
+
