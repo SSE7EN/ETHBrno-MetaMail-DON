@@ -32,7 +32,7 @@ public class RegistrationController {
                 .sig(sig)
                 .build());
 
-        httpServletResponse.sendRedirect(String.format("%s/?tx=%s", appProp.registrationRedirectUri(),
+        httpServletResponse.sendRedirect(String.format("%s/next", appProp.registrationRedirectUri(),
                 response.transactionHash()));
 
     }

@@ -1,4 +1,4 @@
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.0;
 
 import "../interfaces/IMailMap.sol";
 
@@ -23,9 +23,9 @@ contract MultiSignatureEmailRegistrationHandler {
         _;
     }
 
-    constructor(address[] memory oracles){
+    constructor(address[] memory oracles, uint256 newThreshold){
         admin = msg.sender;
-        threshold = oracles.length;
+        threshold = newThreshold;
         for (uint i=0; i < threshold; i++) {
             isValidOracle[oracles[i]] = true;
             oracleIndex[oracles[i]] = nextOracleIndex;
