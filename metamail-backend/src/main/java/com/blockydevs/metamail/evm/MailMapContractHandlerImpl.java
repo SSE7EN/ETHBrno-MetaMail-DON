@@ -36,7 +36,7 @@ public class MailMapContractHandlerImpl implements IMailMapContractHandler {
         final var sigR = sigParts.get("r");
         final var sigV = sigParts.get("v");
         final var registerEmail = new Function(
-                "registerEmail",  // function we're calling
+                "signRegistration",  // function we're calling
                 Arrays.asList(
                         new Bytes32(Numeric.hexStringToByteArray(command.emailHash())),
                         new Uint8(Long.decode(sigV)),
