@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-contract MailMap {
+import "../interfaces/IMailMap.sol";
 
-    mapping(bytes32 => address) registeredAddresses;
-    mapping(address => bytes32) registeredEmails;
+contract MailMap is IMailMap {
 
-    bytes constant HASH_PREFIX = "\x19Ethereum Signed Message:\n32";
-
-    address oracleAddress;
+    mapping(bytes32 => address) private registeredAddresses;
+    mapping(address => bytes32) private registeredEmails;
+    address private oracleAddress;
 
     constructor(
-        address  _oracleAddress
+        address  newOracleAddress
     ) {
-        oracleAddress = _oracleAddress;
+        oracleAddress = newOracleAddress;
     }
 
     modifier onlyOracle() {
@@ -21,11 +20,9 @@ contract MailMap {
         _;
     }
 
-    function registerEmail(bytes32 _emailHash, uint8 _v, bytes32 _r, bytes32 _s) onlyOracle external {
-        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(HASH_PREFIX, _emailHash));
-        address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
-        registeredAddresses[_emailHash] = signer;
-        registeredEmails[signer] = _emailHash;
+    function registerEmail(bytes32 emailHash, address evmAddress) onlyOracle external {
+        registeredAddresses[emailHash] = evmAddress;
+        registeredEmails[evmAddress] = emailHash;
     }
 
     function getWalletAddress(bytes32 emailHash) external view returns(address) {
