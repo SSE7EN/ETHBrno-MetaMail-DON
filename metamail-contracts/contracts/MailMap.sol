@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.0;
 
 import "../interfaces/IMailMap.sol";
 
@@ -20,17 +20,17 @@ contract MailMap is IMailMap {
         _;
     }
 
-    function registerEmail(bytes32 emailHash, address evmAddress) onlyOracle external {
+    function registerEmail(bytes32 emailHash, address evmAddress) onlyOracle external override {
         registeredAddresses[emailHash] = evmAddress;
         registeredEmails[evmAddress] = emailHash;
     }
 
-    function getWalletAddress(bytes32 emailHash) external view returns(address) {
+    function getWalletAddress(bytes32 emailHash) external view override returns(address) {
         require(registeredAddresses[emailHash] != address(0), "Email is not registered");
         return registeredAddresses[emailHash];
     }
 
-    function removeUser() external {
+    function removeUser() external override {
         bytes32 email = registeredEmails[msg.sender];
         delete registeredAddresses[email];
         delete registeredEmails[msg.sender];

@@ -1,6 +1,6 @@
 export class ContractProperties {
 
-    public static CONTRACT_ADDRESS = "0x3335609C31e21317f98b4Fa0EB3cA71C8A8AaF3E";
+    public static CONTRACT_ADDRESS = "0xB958209288546aac3D34565977651172f0f958e3";
 
     public static ABI = [{
         "inputs": [{"internalType": "address", "name": "_oracleAddress", "type": "address"}],
